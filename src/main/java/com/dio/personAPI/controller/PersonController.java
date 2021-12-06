@@ -3,29 +3,25 @@ package com.dio.personAPI.controller;
 import com.dio.personAPI.dto.MessageResponseDTO;
 import com.dio.personAPI.entity.Person;
 import com.dio.personAPI.repository.PersonRepository;
+import com.dio.personAPI.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/people")
 public class PersonController {
 
-    private PersonRepository personRepository;
+    private PersonService personService;
 
-    @Autowired // Injeta uma implementação do tipo PersonRepository
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    @Autowired
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @PostMapping //Mapeia esse metódo para o acesso do HTTP METHOD POST
-    public MessageResponseDTO createPerson(@RequestBody Person person){ //Informa que tá vindo uma requisição do tipo pessoa
-        Person savedPerson = personRepository.save(person);
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID " + savedPerson.getId())
-                .build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDTO createPerson(@RequestBody Person person) { //Informa que tá vindo uma requisição do tipo pessoa
+        return personService.createPerson(person);
     }
 }
