@@ -3,10 +3,15 @@ package com.dio.personAPI.service;
 import com.dio.personAPI.dto.request.PersonDTO;
 import com.dio.personAPI.dto.response.MessageResponseDTO;
 import com.dio.personAPI.entity.Person;
+import com.dio.personAPI.exception.PersonNotFoundException;
 import com.dio.personAPI.mapper.PersonMapper;
 import com.dio.personAPI.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service // Indica para o Spring gerenciar uma classe com todas as regras de negócio da nossa aplicação
 public class PersonService {
@@ -28,5 +33,22 @@ public class PersonService {
                 .builder()
                 .message("Created person with ID " + savedPerson.getId())
                 .build();
+    }
+
+    public List<PersonDTO> listAll() {
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id).orElseThrow(()-> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
+
+    }
+
+    public void deleteById(Long id) {
+        personRepository.deleteById(id);
     }
 }
