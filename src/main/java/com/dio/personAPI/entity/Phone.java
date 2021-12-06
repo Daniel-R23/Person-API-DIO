@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Entity // Reconhecida como entidade
 @Data //Getter and Setter
 @Builder //Padrão de projetos para Constructor
 @AllArgsConstructor //Insere os constructors com todos os argumentos
 @NoArgsConstructor  //Insere os constructors com nenhum argumento
 public class Phone {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Indica que é uma PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// Estratégia de geração dos ID(incremento)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING) //Insere os dados da PhoneType como string
+    @Column(nullable = false) // Indica que essa coluna não pode ser null
     private PhoneType type;
 
-    @Column(nullable = false)
+    @Column(nullable = false) // Indica que essa coluna não pode ser null
     private String number;
 }

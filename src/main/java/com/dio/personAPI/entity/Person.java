@@ -34,5 +34,9 @@ public class Person {
 
     @Column(nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    /*Anotação de relação entre entidades
+    * Irá gerar uma tabela intermediária Person_Phone
+    * fetch = FetchType.LAZY - Estratégia de obtenção de dados
+    * cascade - Estrategia de inserção de dados*/
     private List<Phone> phones;
 }
