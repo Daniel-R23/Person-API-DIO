@@ -5,6 +5,7 @@ import com.dio.personAPI.dto.response.MessageResponseDTO;
 import com.dio.personAPI.entity.Person;
 import com.dio.personAPI.exception.PersonNotFoundException;
 import com.dio.personAPI.service.PersonService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController {
 
     private PersonService personService;
-
-    @Autowired
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
 
     @PostMapping //Mapeia esse metódo para o acesso do HTTP METHOD POST
     @ResponseStatus(HttpStatus.CREATED)
